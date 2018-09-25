@@ -48,6 +48,7 @@ A = [0 B_R B_W;
 b = [B T S]'
 lb = [0 0 0]'
 ub = [+Inf +Inf +Inf]'
+%atie
 
 f = -[(P_R-C_R) (P_W-C_W)]'
 A = [B_R B_W;

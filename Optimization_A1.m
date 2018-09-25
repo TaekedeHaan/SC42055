@@ -102,10 +102,3 @@ figure
 plot(profit)
 
 
-f = -[-C_E*E_h (P_R-C_R) (P_W-C_W)]'
-A = [0 B_R B_W];
-%      0 T_R T_W;
-%      0 S_R S_W]
-% b = [B T S]'
-% lb = [0 0 0]'
-% ub = [+Inf +Inf +Inf]'

@@ -169,14 +169,10 @@ ub = inf(9,1);
 % Optimize
 x = linprog(c, [], [], A, b, lb, ub, options);
 
-% compute profit
 profit = -c' * floor(x) - C_E * E;
-
-% Display results
 disp(x);
 disp(['Profit with V: ', num2str(profit)]);
 %% compute profit without V
-% Generate matrices for optimization
 c = -[(P_R-C_R), (P_W-C_W), 0, 0, 0, 0, 0]';
 
 A = [B_R,   B_W,    1,  0,  0,  0,  0;
@@ -189,12 +185,8 @@ b = [B T S Rmin, Wmin]';
 lb = zeros(7,1);
 ub = inf(7,1);
 
-% optimize
 x = linprog(c, [], [], A, b, lb, ub, options);
 
-% compute profit
 profit = -c' * floor(x) - C_E * E;
-
-% dsiplay result
 disp(x);
 disp(['Profit without V: ', num2str(profit)]);

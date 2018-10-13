@@ -82,11 +82,6 @@ T_min = 315; % [K]
 a1 = 1.96 * 10^-7;
 a2 = 3.80 * 10^-9;
 
-% compute const
-A = 1 - a(1) * dt;
-B = [-dt * a(2), dt * a(2)];
-ck = a1 * dt * T_amb;
-
 % load data 
 temp = readtable('heatDemand.csv');
 Q_out = temp.Heat_demand;
@@ -95,16 +90,16 @@ lambda = temp.Price; % [eur/MWh]
 lambda = lambda * 10^-3 / 3600; % [eur/kWs]
 
 % generate materices for optimization
-% c = [dt * lambda, -1, 0, 0]';
-% A = [ones(1,N), zeros(1,N), 0, 1, 0;
-%      ones(1,N), zeros(1,N), 0, 0, 0;
-%      B(2)*ones(1,N), A*ones(1,N), 0, 0, -1];
-% b = [0. Q_in_max, T_min - c - B(1) Q_oout]';
-% lb = [0 0 0 0 0]';
-% ub = [+Inf +Inf +Inf +Inf +Inf]';
-% 
-% % optimize
-% x = linprog(c,[], [], A,b,lb,ub, options);
+c = [0 0 0 dt * lambda]';
+A = [ones(1,300);
+     ;
+     ];
+b = [B T S]';
+lb = [0 0 0 0 0]';
+ub = [+Inf +Inf +Inf +Inf +Inf]';
+
+% optimize
+x = linprog(c,[], [], A,b,lb,ub, options);
 
 
 %% 

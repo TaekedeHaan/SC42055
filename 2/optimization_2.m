@@ -26,25 +26,26 @@ syms T_0 T_1 Q_in Q_out T_amb
 % constants
 A = 1 - a1 * dt;
 B = [-dt * a2, dt * a2];
-ck = a1 * dt * T_amb;
+c = a1 * dt * T_amb;
 
 % objective function
-y = (T_1 - (A*T_0 + B*[Q_out Q_in].' + ck))^2; % y(T_1, T_0, a1, dt, Q_in, a2, Q_out, T_amb)
+y = (T_1 - (A*T_0 + B*[Q_out Q_in].' + c))^2; % y(T_1, T_0, a1, dt, Q_in, a2, Q_out, T_amb)
 y = expand(y);
 
 k_end = 100 + E_1;
 k = 1:k_end;
 dt = 3600; % [s]
-%% Rewrite
-% compute h
+%% Rewrite inhto normal form
 a = [a1, a2];
-dydx = jacobian(y,a);
+
+% compute H
+dydx = simplify(jacobian(y,a)); % [1 x 2]
 H = simplify(jacobian(dydx, a));
 
 % compute f
-dydx = simplify(jacobian(y,a)); % [1 x 2]
 F = simplify(dydx - a * H);
 
+%% optimize
 % read data
 temp = readtable('measurements.csv');
 
@@ -70,55 +71,45 @@ disp(a);
 
 A = 1 - a(1) * dt;
 B = [-dt * a(2), dt * a(2)];
-ck = a1 * dt * T_amb;
+c = a1 * dt * T_amb;
 
 
 %% Question 3
+clear Q_in
 N = 360;
-Q_in_max = 100 + E_2; %[kW]
+k = 1:N;
+Q_in_max = (100 + E_2)*10^3; %[W]
 T_1 = 330 + E_3; % [K]
-T_amb = 275 + E_1; %[K]
+T_amb = repmat(275 + E_1, N, 1); %[K]
 T_min = 315; % [K]
 a1 = 1.96 * 10^-7;
 a2 = 3.80 * 10^-9;
 
-% compute const
-A = 1 - a(1) * dt;
-B = [-dt * a(2), dt * a(2)];
-ck = a1 * dt * T_amb;
-
 % load data 
 temp = readtable('heatDemand.csv');
-Q_out = temp.Heat_demand;
+Q_out = temp.Heat_demand(k);
+
 temp = readtable('inputPrices.csv');
-lambda = temp.Price; % [eur/MWh]
-lambda = lambda * 10^-3 / 3600; % [eur/kWs]
+lambda = temp.Price(k); % [eur/MWh]
+lambda = lambda * 10^-6 / 3600; % [eur/J]
 
-% generate materices for optimization
-% c = [dt * lambda, -1, 0, 0]';
-% A = [ones(1,N), zeros(1,N), 0, 1, 0;
-%      ones(1,N), zeros(1,N), 0, 0, 0;
-%      B(2)*ones(1,N), A*ones(1,N), 0, 0, -1];
-% b = [0. Q_in_max, T_min - c - B(1) Q_oout]';
-% lb = [0 0 0 0 0]';
-% ub = [+Inf +Inf +Inf +Inf +Inf]';
-% 
+% compute const
+A = 1 - a1 * dt;
+B = dt * a2 * [-1, 1];
+c = a1 * dt * T_amb;
+
+% generate materices fcor optimization
+f = [dt * lambda(1:N); zeros(N + 1,1)];
+Aeq = [-diag(repmat(B(2),N,1)), -diag(repmat(A,N,1)) + diag(ones(N- 1,1),1), [zeros(N-1,1);1]]; % moving of temp
+ 
+beq = B(1) * Q_out + c;
+lb = [zeros(N,1); T_1;  T_min * ones(N,1)];
+ub = [Q_in_max * ones(N,1); T_1;  +Inf(N,1)];
+ 
 % % optimize
-% x = linprog(c,[], [], A,b,lb,ub, options);
+x = linprog(f,[], [], Aeq,beq,lb,ub);
 
-
-%% 
-% disp(pretify(y));
-% dfda1 = jacobian(f,a1);
-% h11 = jacobian(dfda1,a1); 
-% h11 = simplify(h11);
-% 
-% dfda2 = jacobian(f,a2);
-% h22 = jacobian(dfda2,a2); 
-% h22 = simplify(h22);
-% 
-% h21 = jacobian(dfda1,a2); 
-% h21 = simplify(h21);
-% h12 = h21;
-% 
-% H = [h11, h12; h21, h22];
+figure
+plot(x(1:360))
+figure
+plot(x(361:721))

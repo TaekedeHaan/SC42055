@@ -20,7 +20,7 @@ E_1 = (Da1 + Db1)/2;
 E_2 = (Da2 + Db2)/2;
 E_3 = (Da3 + Db3)/2;
 
-lambda = 4; % [-] number of lanes
+
 T = 10; % [s] simlation time step
 L = 1; % [km] Length segment
 
@@ -37,11 +37,4 @@ rho_c = 28; %[veh/km lane]
 % init
 rho_init = 20; %[veh/km]
 v_init = 90; %[km/h]
-Dr = 1500; %[veh/h] constant ramp deman
-
-%  flow entering the mainline
-q0_1 = 7000 + 100 * E1; % [veh/h] if k<12
-q0_2 = 2000 + 100 * E2; % [veh/h] if k>=12
-
-%% optimization
-x = fmincon(y,x0,A,b,Aeq,beq,lb,ub,nonlcon,options)
+Dr = 

@@ -21,9 +21,9 @@ L = 1; % [km] Length segment
 
 %  flow entering the mainline
 if k < 12
-    q_0k = 7000 + 100*E_1; % [veh/h] if k<12
+    q_0k = 7000 + 100 * E_1; % [veh/h] if k<12
 else
-    q_0k = 2000 + 100*E_2; % [veh/h] if k>=12
+    q_0k = 2000 + 100 * E_2; % [veh/h] if k>=12
 end
 
 D_r = 1500; %[veh/h]
@@ -32,8 +32,8 @@ D_r = 1500; %[veh/h]
 q_rk = min([x_k(10)*C_r, D_r + x_k(9)/T, C_r*(rho_m - x_k(4))/(rho_m - rho_c)]);
 
 % desired speed
-V_max = [120, x_k(11), x_k(11), 120];
-V_k = min((1+alpha)*V_max, v_f*exp(-1/a*(x_k(1:4)/rho_c).^a));
+V_max = [120, x_k(11),x_k(11), 120];
+V_k = min([(1+alpha)*, v_f*exp(-1/a*(x_k(1:4)/rho_c).^a));
 
 % constraints density
 ceq(1) = -x_new(1) + x_k(1) + T/L*(q_0k/lambda - x_k(1)*x_k(5));

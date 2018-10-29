@@ -31,8 +31,8 @@ disp('===QUESTION 3====');
 z_init(11) = 120;
 
 % bounds
-lb = [0,    0,      0,      0,      0,      0,      0,      0,      0,      1,  60];
-ub = [+inf, +inf,   +inf,   +inf,   +inf,   +inf,   +inf,   +inf,   +inf,   1,  120];
+lb = [1,  60];
+ub = [1,  120];
 
 optimize_traffic(z_init, lb, ub, T_vec, '3_no_ramp_V_SLi_120')
 
@@ -40,27 +40,27 @@ optimize_traffic(z_init, lb, ub, T_vec, '3_no_ramp_V_SLi_120')
 z_init(11) = 60;
 
 % bounds
-lb = [0,    0,      0,      0,      0,      0,      0,      0,      0,      1,  60];
-ub = [+inf, +inf,   +inf,   +inf,   +inf,   +inf,   +inf,   +inf,   +inf,   1,  120];
+lb = [1,  60];
+ub = [1,  120];
 
 optimize_traffic(z_init, lb, ub, T_vec, '3_no_ramp_V_SLi_60')
 
-%% 4: ramp metering V_SL = 60
+%% 4: Full control
 disp('===QUESTION 4====');
 
 % bounds
 z_init(11) = 120;
 
-lb = [0,    0,      0,      0,      0,      0,      0,      0,      0,      0,  60];
-ub = [+inf, +inf,   +inf,   +inf,   +inf,   +inf,   +inf,   +inf,   20-E_3, 1,  120];
+lb = [0,  60];
+ub = [1,  120]; % 20-E_3
 
 optimize_traffic(z_init, lb, ub, T_vec, '4_full_controll')
 
-%% 3: ramp metering V_SL = 60
+%% 4: No control
 % bounds
 z_init(11) = 120;
 
-lb = [0,    0,      0,      0,      0,      0,      0,      0,      0,      1,  60];
-ub = [+inf, +inf,   +inf,   +inf,   +inf,   +inf,   +inf,   +inf,   +inf, 1,  120];
+lb = [1,  120];
+ub = [1,  120];
 
 optimize_traffic(z_init, lb, ub, T_vec, '4_no_control')

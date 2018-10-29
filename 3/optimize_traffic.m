@@ -1,9 +1,5 @@
 function optimize_traffic(z_init, lb, ub, T_vec, case_name)
 
-lambda = 3; % [-] number of lanes
-T = 10/3600; % [h] simlation time step
-L = 1; % [km] Length segment
-
 [E_1, E_2, E_3] = student_id();
 
 % get k
@@ -11,15 +7,23 @@ k_vec = 1:length(T_vec);
 k_end = k_vec(end);
 
 % reserve memory
-z = nan(k_end, 11);
+x = nan(k_end, 9);
+u = nan(k_end, 2);
 fval = nan(k_end, 1);
 
 % init
-z(1,:) = [z_init(1:9), nan, nan];
-fval(1) = opt_func(z(1,:), lambda, T, L);
+x_init = z_init(1:9);
+u_init = z_init(10:11);
+
+%
+u(1,:) = u_init;
+x(1,:) = x_init;
+fval(1) = get_cost(x_init);
 
 % only display in case of non-convergens
-options = optimoptions('fmincon', 'Display', 'notify', 'ConstraintTolerance', 1e-5);
+% options = optimoptions('fmincon', 'Display', 'notify', 'ConstraintTolerance', 1e-5);
+options = optimoptions('ga', 'Display', 'diagnose');
+% options = optimoptions('ga','ConstraintTolerance',1e-6,'PlotFcn', @gaplotbestf);
 
 for k = k_vec
    
@@ -29,11 +33,15 @@ for k = k_vec
     end
     
     % optimization
-    f = @(x)opt_func(x, lambda, T, L);
-    nonlcon = @(x)opt_con(x, z(k,:), k);
+    f = @(u)opt_func(x(k,:), u, k);
+    nonlcon = @(u)opt_con(x(k,:), u, k);
+    % [u(k,:), fval(k+1)] = fmincon(f,z_init(10:11),[],[],[],[],lb, ub, nonlcon, options); 
+    [u(k,:), fval(k+1)] = ga(f,2,[],[],[],[],lb, ub, nonlcon, options); 
     
-    [z(k + 1,1:11), fval(k+1)] = fmincon(f,z_init,[],[],[],[],lb, ub, nonlcon, options); 
+    x(k+1,:) = metanet(x(k,:), u(k,:), k);
 end
+
+z = [x, u];
 
 %% plot
 % system state
@@ -47,7 +55,7 @@ title('density')
 subplot(3,1,2)
 plot(T_vec, z(:,5:8))
 hold on
-plot(T_vec, z(:,11),'--')
+stairs(T_vec, z(:,11),'--', 'LineWidth', 2)
 ylim([0, 120])
 ylabel('velocity [km/h]')
 legend('lane 1', 'lane 2', 'lane 3', 'lane 4', 'V_{SL}')
@@ -62,7 +70,7 @@ ylabel('queue (veh)')
 
 yyaxis right
 ylim([-0.1, 1.1])
-plot(T_vec, z(:,10))
+stairs(T_vec, z(:,10),'LineWidth', 2)
 ylabel('inlet (-)')
 
 legend('queue (w)', 'inlet (r)')

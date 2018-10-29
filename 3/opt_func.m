@@ -1,3 +1,4 @@
-function y = opt_func(z, lambda, T, L)
-
-y = T*z(9) + T*L*lambda*(sum(z(1:4)));          % Compute function value at x
+function y = opt_func(x, u, k)
+x_new = metanet(x, u, k);
+y = get_cost(x_new);
+end

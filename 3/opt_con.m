@@ -15,7 +15,7 @@ v_f = 110;          % [km/h]
 rho_c = 28;         % [veh/km lane]
 
 % simulation params
-lambda = 4;         % [-] # of lanes
+lambda = 3;         % [-] # of lanes
 T = 10*1/3600;      % [h] simlation time step
 L = 1;              % [km] Length segment
 

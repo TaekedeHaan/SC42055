@@ -1,5 +1,5 @@
 function y = opt_func(x)
-lambda = 4; % [-] number of lanes
+lambda = 3; % [-] number of lanes
 T = 10/3600; % [h] simlation time step
 L = 1; % [km] Length segment
 

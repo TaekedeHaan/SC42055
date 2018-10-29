@@ -4,20 +4,20 @@ global x_k k
 [E_1, E_2, ~] = student_id();
 
 % METANET parameters
-tau = 10*1/3600; % [h]
-mu = 80; % [km^2/h]
-C_r = 2000; %[vec/km lane]
-rho_m = 120; % [veh/km lane]
-alpha = 0.1; % [-]
-K = 10; % [veh/km lane]
-a = 2; % [-]
-v_f = 110; % [km/h]
-rho_c = 28; %[veh/km lane]
+tau = 10*1/3600;    % [h]
+mu = 80;            % [km^2/h]
+C_r = 2000;         % [vec/km lane]
+rho_m = 120;        % [veh/km lane]
+alpha = 0.1;        % [-]
+K = 10;             % [veh/km lane]
+a = 2;              % [-]
+v_f = 110;          % [km/h]
+rho_c = 28;         % [veh/km lane]
 
 % simulation params
-lambda = 4; %[-] # of lanes
-T = 10*1/3600; % [h] simlation time step
-L = 1; % [km] Length segment
+lambda = 4;         % [-] # of lanes
+T = 10*1/3600;      % [h] simlation time step
+L = 1;              % [km] Length segment
 
 %  flow entering the mainline
 if k < 12

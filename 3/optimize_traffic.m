@@ -25,18 +25,33 @@ fval(1) = get_cost(x_init);
 options = optimoptions('ga', 'Display', 'diagnose');
 % options = optimoptions('ga','ConstraintTolerance',1e-6,'PlotFcn', @gaplotbestf);
 
+lb_k = repmat(lb,1,k_end);
+ub_k = repmat(ub,1,k_end);
+
+% optimization
+f = @(u)opt_func(x, u, k_vec);
+nonlcon = @(u)opt_con(x, u, k_vec);
+% [u, fval] = fmincon(f,z_init(10:11),[],[],[],[],lb, ub, nonlcon, options); 
+[u, fval] = ga(f,2*k_end,[],[],[],[],lb_k, ub_k, nonlcon, options); 
+
+%% reshape u
+u_old = u;
+clear u
+
 for k = k_vec
-   
-    % harde beun om gedoe met indexen te voorkomen
-    if k == k_end
+    
+    i_1 = 2*(k-1) + 1;
+    i_2 = 2*(k-1) + 2;
+    
+    u(k,:) = u_old([i_1, i_2]);
+end
+
+%% compute x
+for k = k_vec
+    
+    if k == k_vec(end)
         break;
     end
-    
-    % optimization
-    f = @(u)opt_func(x(k,:), u, k);
-    nonlcon = @(u)opt_con(x(k,:), u, k);
-    % [u(k,:), fval(k+1)] = fmincon(f,z_init(10:11),[],[],[],[],lb, ub, nonlcon, options); 
-    [u(k,:), fval(k+1)] = ga(f,2,[],[],[],[],lb, ub, nonlcon, options); 
     
     x(k+1,:) = metanet(x(k,:), u(k,:), k);
 end

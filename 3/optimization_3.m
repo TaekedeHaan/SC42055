@@ -18,7 +18,7 @@ T_vec = (k_vec-1) * T;
 z_init(1:4) = 20; %[veh/km]
 z_init(5:8) = 90; %[km/h]
 z_init(9)  = 0; % initial ramp queue
-z_init(10) = 1; % required for from
+z_init(10) = 1; %
 z_init(11) = 120;
 
 %% simulation
@@ -52,7 +52,7 @@ disp('===QUESTION 4====');
 z_init(11) = 120;
 
 lb = [0,  60];
-ub = [1,  120]; % 20-E_3
+ub = [1,  120];
 
 optimize_traffic(z_init, lb, ub, T_vec, '4_full_controll')
 

@@ -29,9 +29,7 @@ end
 D_r = 1500; %[veh/h]
 
 %  the flow that enters from the controlled on-ramp on segment 4
-q_r_all = [x_k(10)*C_r, D_r + x_k(9)/T, C_r*(rho_m - x_k(4))/(rho_m - rho_c)];
-% disp(q_r_all);
-q_rk = min(q_r_all);
+q_rk = min();
 
 % desired speed
 V_max = [120, x_k(11), x_k(11), 120];

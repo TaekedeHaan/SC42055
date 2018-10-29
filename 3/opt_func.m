@@ -1,3 +1,3 @@
-function y = opt_func(x, lambda, T, L)
+function y = opt_func(z, lambda, T, L)
 
-y = T*x(9) + T*L*lambda*(sum(x(1:4)));          % Compute function value at x
+y = T*z(9) + T*L*lambda*(sum(z(1:4)));          % Compute function value at x

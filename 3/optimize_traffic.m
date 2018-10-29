@@ -15,7 +15,7 @@ z = nan(k_end, 11);
 fval = nan(k_end, 1);
 
 % init
-z(1,:) = z_init();
+z(1,:) = [z_init(1:9), nan, nan];
 fval(1) = opt_func(z(1,:), lambda, T, L);
 
 % only display in case of non-convergens

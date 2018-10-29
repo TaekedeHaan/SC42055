@@ -28,12 +28,12 @@ end
 D_r = 1500; %[veh/h]
 
 %  the flow that enters from the controlled on-ramp on segment 4
-q_r_all = [z_old(10)*C_r, D_r + z_old(9)/T, C_r*(rho_m - z_old(4))/(rho_m - rho_c)];
+q_r_all = [z_new(10)*C_r, D_r + z_old(9)/T, C_r*(rho_m - z_old(4))/(rho_m - rho_c)];
 % disp(q_r_all);
 q_rk = min(q_r_all);
 
 % desired speed
-V_max = [120, z_old(11), z_old(11), 120];
+V_max = [120, z_new(11), z_new(11), 120];
 V_k = min((1+alpha)*V_max, v_f*exp(-1/a*(z_old(1:4)/rho_c).^a));
 
 % constraints density

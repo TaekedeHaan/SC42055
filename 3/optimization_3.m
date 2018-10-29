@@ -54,13 +54,13 @@ x_init(11) = 120;
 lb = [0,    0,      0,      0,      0,      0,      0,      0,      0,      0,  60];
 ub = [+inf, +inf,   +inf,   +inf,   +inf,   +inf,   +inf,   +inf,   20-E_3, 1,  120];
 
-optimize_traffic(x_init, lb, ub, T_vec, '4_V_SLi_60')
+optimize_traffic(x_init, lb, ub, T_vec, '4_full_controll')
 
 %% 3: ramp metering V_SL = 60
 % bounds
 x_init(11) = 120;
 
-lb = [0,    0,      0,      0,      0,      0,      0,      0,      0,      1,  120];
-ub = [+inf, +inf,   +inf,   +inf,   +inf,   +inf,   +inf,   +inf,   20-E_3, 1,  120];
+lb = [0,    0,      0,      0,      0,      0,      0,      0,      0,      1,  60];
+ub = [+inf, +inf,   +inf,   +inf,   +inf,   +inf,   +inf,   +inf,   +inf, 1,  120];
 
 optimize_traffic(x_init, lb, ub, T_vec, '4_no_control')

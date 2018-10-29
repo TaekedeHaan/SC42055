@@ -16,18 +16,21 @@ x(1,:) = x_init;
 fval(1) = opt_func(x(1,:));
 
 % only display in case of non-convergens
-options = optimoptions('fmincon', 'Display', 'notify');
+options = optimoptions('fmincon', 'Display', 'notify', 'ConstraintTolerance', 1e-5);
 
 for k = k_vec
-    
+   
     % harde beun om gedoe met indexen te voorkomen
     if k == k_end
         break;
     end
     x_k = x(k, :);  
+    % disp(x_k);
+    
+    % [Aeq, beq] = get_eq_const(case_name)
     
     % optimization
-    [x(k + 1,1:11), fval(k+1)] = fmincon(@opt_func,x_k,[],[],[],[],lb,ub,@opt_con, options); 
+    [x(k + 1,1:11), fval(k+1)] = fmincon(@opt_func,x_init,[],[],[],[],lb,ub,@opt_con, options); 
 end
 
 %% plot

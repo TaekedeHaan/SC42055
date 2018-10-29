@@ -52,4 +52,4 @@ ceq(8) = -x_new(8) + x_k(8) + T/tau*(V_k(4) - x_k(8)) + T/L*x_k(8)*(x_k(7) - x_k
 % constraints que length
 ceq(9) = -x_new(9) + x_k(9) + T*(D_r - q_rk);
 
-c = -1;% always satisfied
+c(1) = - 1;% always satisfied

@@ -14,7 +14,6 @@ for k = k_vec
     x(k+1,:) = metanet(x(k,:), u([i_1, i_2]), k);
 end
 
-
 ceq = 0; % always satisfies
 
 end

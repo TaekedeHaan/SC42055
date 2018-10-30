@@ -1,6 +1,6 @@
 function fval = optimize_traffic(x_init, u_init, lb, ub, T_vec, case_name)
 
-[E_1, E_2, E_3] = student_id();
+[~, ~, E_3] = student_id();
 
 % get k
 k_vec = 1:length(T_vec);
@@ -8,18 +8,15 @@ k_end = k_vec(end);
 
 % reserve memory
 x = nan(k_end, 9);
-u = nan(k_end, 2);
-fval = nan(k_end, 1);
 
 % set initial cond
 x(1,:) = x_init;
-% fval(1) = get_cost(x_init);
-
 
 lb_k = repmat(lb,1,k_end);
 ub_k = repmat(ub,1,k_end);
 u_init_k = repmat(u_init, 1, k_end);
 
+% set optimization functions
 f = @(u)opt_func(x, u, k_vec);
 nonlcon = @(u)opt_con(x, u, k_vec);
 

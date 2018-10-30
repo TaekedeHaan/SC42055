@@ -12,6 +12,7 @@ u = nan(k_end, 2);
 fval = nan(k_end, 1);
 
 % set initial cond
+z_init = [x_init, u_init];
 x(1,:) = x_init;
 % fval(1) = get_cost(x_init);
 
@@ -19,21 +20,24 @@ x(1,:) = x_init;
 lb_k = repmat(lb,1,k_end);
 ub_k = repmat(ub,1,k_end);
 u_init_k = repmat(u_init, 1, k_end);
+z_init_k = repmat(z_init, 1, k_end);
 
-f = @(u)opt_func(x, u, k_vec);
-nonlcon = @(u)opt_con(x, u, k_vec);
+f = @(z)opt_func(z, k_vec);
+nonlcon = @(z)opt_con(z, k_vec);
+
+% [c,ceq] = opt_con(z_init_k, k_vec);
 
 % optimization
 switch case_name
     case {'4_full_controll', '3_no_ramp_ga'}     
         options = optimoptions('ga', 'Display', 'diagnose');
-        [u, fval] = ga(f,2*k_end,[],[],[],[],lb_k, ub_k, nonlcon, options); 
+        [u, fval] = ga(f,11*k_end,[],[],[],[],lb_k, ub_k, nonlcon, options); 
         
     otherwise
         
         % only display in case of non-convergens
-        options = optimoptions('fmincon', 'Display', 'notify', 'ConstraintTolerance', 1e-5);
-        [u, fval] = fmincon(f,u_init_k,[],[],[],[],lb_k, ub_k, nonlcon, options);
+        % options = optimoptions('fmincon', 'Display', 'notify', 'ConstraintTolerance', 1e-5, 'MaxFunctionEvaluations', 1e5);
+        [u, fval] = fmincon(f,z_init_k,[],[],[],[],lb_k, ub_k, nonlcon);
 end
 
 

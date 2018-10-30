@@ -34,8 +34,8 @@ case_name = '3_no_ramp_V_SLi_120';
 u_init(2) = 120;
 
 % bounds
-lb = [1,  60];
-ub = [1,  120];
+lb = [0,    0,      0,      0,      0,      0,  0,      0,      0,  1,  60];
+ub = [inf,  inf,    inf,    inf,    inf,   inf  ,inf    inf,    inf,1,  120];
 
 sf1 = optimize_traffic(x_init, u_init, lb, ub, T_vec, case_name);
 
@@ -48,8 +48,8 @@ case_name = '3_no_ramp_V_SLi_60';
 u_init(2) = 60;
 
 % bounds
-lb = [1,  60];
-ub = [1,  120];
+lb = [0,    0,      0,      0,      0,      0,  0,      0,      0,  1,  60];
+ub = [inf,  inf,    inf,    inf,    inf,   inf  ,inf    inf,    inf,1,  120];
 
 sf2 = optimize_traffic(x_init, u_init, lb, ub, T_vec, case_name);
 

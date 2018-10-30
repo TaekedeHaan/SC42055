@@ -39,7 +39,7 @@ ub = [1,  120];
 
 sf1 = optimize_traffic(x_init, u_init, lb, ub, T_vec, case_name);
 
-disp([case_name, ': ', num2str(sf1)]);
+disp([case_name, ': ', num2str(sfl)]);
 
 %% 3b
 case_name = '3_no_ramp_V_SLi_60';

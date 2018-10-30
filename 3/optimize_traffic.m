@@ -101,4 +101,4 @@ xlabel('time [h]')
 saveas(gcf, ['fig', filesep, 'system_state_', case_name], 'epsc');
 saveas(gcf, ['fig', filesep, 'system_state_', case_name], 'jpg');
 
-save(['data', filesep, 'case_name'],'x', 'u', 'fval');
+save(['data', filesep, case_name],'x', 'u', 'fval');

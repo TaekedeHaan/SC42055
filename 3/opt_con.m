@@ -1,5 +1,5 @@
 function [c,ceq] = opt_con(x, u, k_vec)
-[E_1, E_2, E_3] = student_id();
+[~, ~, E_3] = student_id();
 
 c = nan(size(k_vec));
 
@@ -12,7 +12,6 @@ for k = k_vec
     i_2 = 2*(k-1) + 2;
     
     x(k+1,:) = metanet(x(k,:), u([i_1, i_2]), k);
-    
 end
 
 

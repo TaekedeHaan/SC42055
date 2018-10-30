@@ -68,20 +68,25 @@ disp([case_name, ': ', num2str(sf3)]);
 
 %% 4: Full control
 disp('===QUESTION 4====');
-
+case_name = '4_full_controll';
 % bounds
 u_init(2) = 120;
 
 lb = [0,  60];
 ub = [1,  120];
 
-sf3 = optimize_traffic(x_init, u_init, lb, ub, T_vec, '4_full_controll')
+sf4 = optimize_traffic(x_init, u_init, lb, ub, T_vec, case_name);
+
+disp([case_name, ': ', num2str(sf4)]);
 
 %% 4: No control
+case_name = '4_no_control';
 % bounds
 u_init(2) = 120;
 
 lb = [1,  120];
 ub = [1,  120];
 
-sf4 = optimize_traffic(x_init, u_init, lb, ub, T_vec, '4_no_control')
+sf5 = optimize_traffic(x_init, u_init, lb, ub, T_vec, case_name);
+
+disp([case_name, ': ', num2str(sf5)]);

@@ -1,4 +1,4 @@
-function optimize_traffic(z_init, lb, ub, T_vec, case_name)
+function optimize_traffic(x_init, u_init, lb, ub, T_vec, case_name)
 
 [E_1, E_2, E_3] = student_id();
 
@@ -11,14 +11,9 @@ x = nan(k_end, 9);
 u = nan(k_end, 2);
 fval = nan(k_end, 1);
 
-% init
-x_init = z_init(1:9);
-u_init = z_init(10:11);
-
-%
-u(1,:) = u_init;
+% set initial cond
 x(1,:) = x_init;
-fval(1) = get_cost(x_init);
+% fval(1) = get_cost(x_init);
 
 % only display in case of non-convergens
 % options = optimoptions('fmincon', 'Display', 'notify', 'ConstraintTolerance', 1e-5);
